@@ -1,0 +1,40 @@
+.header-display{
+    background-color: darkslategray;
+    color: white;
+    font-family:fantasy;
+    text-align: center;
+}
+
+.form-container{
+    width: 400px;
+    border: 20px solid black;
+    background-color: lightgray;
+    padding: 10px;
+    border: black;
+}
+
+label{
+    padding-left: 10px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.form-control{
+    width: 85%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.text-muted{
+    padding-left: 12px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 11px;
+    padding-bottom: 10px;
+}
+
+.search-btn{
+    padding-left: 15px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: darkgray;
+    font-weight: bold;
+}
