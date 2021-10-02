@@ -5,10 +5,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Weather App</title>
 </head>
 
 <body>
+
+    <header class=header-display>
+        <h1>Weather Dashboard</h1>
+    </header>
+
+    <form class=form-container>
+        <div>
+            <label for="input-city">Search for a city:</label>
+            <input type="city" class="form-control" id="input-city" placeholder="Enter ciry">
+            <small id="use-saved" class="form-text text-muted">or simply click on a saved search below for a faster
+                experience</small>
+        </div>
+
+        <button type="submit" class="btn search-btn">Search</button>
+    </form>
+
+    <main>
+        <div class=results-container>
+            <div class=weather-today>
+
+            </div>
+            <div class=future-weather>
+
+            </div>
+
+        </div>
+    </main>
 
 </body>
 
