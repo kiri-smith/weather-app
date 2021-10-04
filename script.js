@@ -47,7 +47,37 @@ var buttonClickHandler = function (event) {
     }
 }
 
-//need to create weather attributes to display
+
+//need to get latitude/longitude data for the city 
+
+var cityName = ;
+var stateCode = ;
+var countryCode = ;
+
+function getCity() {
+    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + cityName + ',' + stateCode + ',' + countryCode + '&limit=5&appid=53dde6618c2178392a38a7bdd50d3890';
+
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+
+        .then(function (data) {
+            return data.json();
+        })
+
+        .then(function (,) {
+            console.log("lat", "long");
+        })
+
+    //more needed here? -- just want to grab lat and long to use for next fetch
+})
+}
+
+//need to display weather info
+var currentWeather = //can i put in the attributes required?
+var futureWeather = 
+
 var getWeather = function (weather) {
     var apiUrl = ''
 
@@ -63,6 +93,14 @@ var getWeather = function (weather) {
         })
         .catch(function (error) {
             alert('Unable to connect to weather data')
+        });
+
+    fetch('https://ubahthebuilder.tech/posts/1')
+        .then(data function () {
+            return data.json();
+        })
+        .then(post function () {
+            console.log(post."temp");
         });
 }
 
