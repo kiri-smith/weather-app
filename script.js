@@ -38,7 +38,13 @@ var formSearchHandler = function (event) {
 };
 
 var buttonClickHandler = function (event) {
+    var savedCity = event.target.getAttribute('') //<-saved city buttons?
 
+    if (savedCity) {
+        getWeather(savedCity);
+
+        resultsContainerEl.textContent = '';
+    }
 }
 
 //need to create weather attributes to display
@@ -55,6 +61,9 @@ var getWeather = function (weather) {
                 alert('Error: ' + response.statusText)
             }
         })
+        .catch(function (error) {
+            alert('Unable to connect to weather data')
+        });
 }
 
 var displayWeather = function ()
