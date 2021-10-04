@@ -107,7 +107,7 @@ var createWeatherEl = function (weatherData) {
     wrapper.appendChild(weatherElIcon);
 
     const weatherElTemp = document.createElement("div")
-    weatherElTemp.textContent = "Temperature: " + weatherData.temp
+    weatherElTemp.textContent = "Temperature (in celsius): " + weatherData.temp
     wrapper.appendChild(weatherElTemp);
 
     const weatherElHumidity = document.createElement("div")
