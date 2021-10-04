@@ -82,7 +82,7 @@ var getWeather = function (latitude, longitude) {
                 uvi: dayData.uvi,
                 icon: dayData.weather[0].icon
             }))
-            c
+
         })
 
 }
@@ -125,7 +125,42 @@ var createWeatherEl = function (weatherData) {
     return wrapper
 }
 
+var displayHistory = function (lookupHistory) {
+    const lookupHistoryEls = lookupHistory.map(function (lookup) {
+        const wrapper = document.createElement("div");
+        wrapper.textContent = lookup;
+        wrapper.addEventListener("click", function () {
+            updateWeather(lookup)
+        })
+        return wrapper
+    })
 
+    savedCityEl.innerHTML = ""
+
+    lookupHistoryEls.forEach(function (lookupHistoryEl) {
+        savedCityEl.appendChild(lookupHistoryEl)
+    })
+}
+
+var updateWeather = function (cityName) {
+    updateHistory(cityName);
+    getCoords(cityName)
+        .then(function (coords) {
+            return getWeather(coords.lat, coords.lon)
+        })
+        .then(function (weatherData) {
+            displayWeather(weatherData)
+        })
+}
+
+var updateHistory = function (cityName) {
+    let lookupHistory = localStorage.getItem("lookup-history") || "[]"
+    lookupHistory = JSON.parse(lookupHistory);
+    if (cityName) lookupHistory.unshift(cityName);
+    lookupHistory = lookupHistory.filter((e, i) => lookupHistory.indexOf(e) === i);
+    localStorage.setItem("lookup-history", JSON.stringify(lookupHistory))
+    displayHistory(lookupHistory);
+}
 
 userFormEl.addEventListener('submit', formSearchHandler);
 updateHistory();
