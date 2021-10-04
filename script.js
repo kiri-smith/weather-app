@@ -18,7 +18,7 @@ var userFormEl = document.querySelector('.form-container');
 var cityInputEl = document.querySelector('.input-city');
 var resultsContainerEl = document.querySelector('.results-container');
 var searchBtn = document.querySelector('.search-btn');
-var savedCityEl = document.querySelector('saved-results');
+var savedCityEl = document.querySelector('.saved-searches');
 var iconEl = document.querySelector('.icon');
 
 
@@ -29,7 +29,7 @@ var formSearchHandler = function (event) {
     var citySearched = cityInputEl.value.trim();
 
     if (citySearched) {
-        getWeather(citySearched);
+        updateWeather(citySearched);
 
         resultsContainerEl.textContent = "";
         cityInputEl.value = "";
@@ -38,83 +38,130 @@ var formSearchHandler = function (event) {
     }
 };
 
-var buttonClickHandler = function (event) {
-    var savedCity = event.target.getAttribute('') //<-saved city buttons?
+function getCoords(cityName) {
 
-    if (savedCity) {
-        getWeather(savedCity);
-
-        resultsContainerEl.textContent = '';
-    }
-}
+    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + cityName + '&limit=1&appid=53dde6618c2178392a38a7bdd50d3890';
 
 
-//need to get latitude/longitude data for the city 
 
-var cityName = ;
-var stateCode = ;
-var countryCode = ;
-
-function getCity() {
-    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + cityName + ',' + stateCode + ',' + countryCode + '&limit=5&appid=53dde6618c2178392a38a7bdd50d3890';
-
-    fetch(requestUrl)
+    return fetch(requestUrl)
         .then(function (response) {
             return response.json();
         })
 
         .then(function (data) {
-            return data.json();
-        })
-
-        .then(function (,) {
+            const dataObject = data[0];
+            return {
+                lat: dataObject.lat,
+                lon: dataObject.lon
+            }
             console.log("lat", "long");
-        })
 
-    //more needed here? -- just want to grab lat and long to use for next fetch
-})
+        })
 }
 
 //need to display weather info
 
-var latitude = //somehow use getCity(lat)
-var longitude = 
+var getWeather = function (latitude, longitude) {
 
-var getCurrentWeather = function (latitude, longitude) {
-
-    var currentApiUrl = 'api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude + '&appid=53dde6618c2178392a38a7bdd50d3890'
+    var currentApiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=current,minutely,hourly,alerts&appid=53dde6618c2178392a38a7bdd50d3890'
 
 
-    fetch(currentApiUrl)
+    return fetch(currentApiUrl)
         .then(function (response) {
-            var data = response.json();
-            return data;
+            return response.json();
         })
 
         .then(function (data) {
-            weather.temp = data.temp;
-            weather.humidity = data.humidity;
-            //IS THIS EVEN CLOSE?
+            const daily = data.daily
+            return daily.slice(0, 5).map(dayData => ({
+                dt: new Date(dayData.dt * 1000).toString().split(" ").slice(1, 4).join(" "),
+                temp: dayData.temp.day,
+                humidity: dayData.humidity,
+                wind_speed: dayData.wind_speed,
+                uvi: dayData.uvi,
+                icon: dayData.weather[0].icon
+            }))
 
         })
 
-        .then(function () {
-            displayWeather();
-        });
 }
 
-var getFutureWeather = function (latitude, longitude) {
-    //do the same thing as above but with future weather api?
 
-    var futureApiUrl = 'api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&appid=53dde6618c2178392a38a7bdd50d3890'
-
-    fetch(futureApiUrl)
+var displayWeather = function (weatherDatas) {
+    const weatherEls = weatherDatas.map(createWeatherEl)
+    resultsContainerEl.innerHTML = "";
+    weatherEls.forEach(function (weatherEl) {
+        resultsContainerEl.appendChild(weatherEl);
+    })
 }
 
-var displayWeather = function () {
-    //display current and future weather
-    //with icons and all components needed
+var createWeatherEl = function (weatherData) {
+    const wrapper = document.createElement("div")
+    const weatherElDate = document.createElement("h2")
+    weatherElDate.textContent = weatherData.dt
+    wrapper.appendChild(weatherElDate);
+
+    const weatherElIcon = document.createElement("img")
+    weatherElIcon.src = "http://openweathermap.org/img/wn/" + weatherData.icon + "@2x.png";
+    wrapper.appendChild(weatherElIcon);
+
+    const weatherElTemp = document.createElement("div")
+    weatherElTemp.textContent = "Temperature: " + weatherData.temp
+    wrapper.appendChild(weatherElTemp);
+
+    const weatherElHumidity = document.createElement("div")
+    weatherElHumidity.textContent = "Humidity: " + weatherData.humidity
+    wrapper.appendChild(weatherElHumidity);
+
+    const weatherElWind = document.createElement("div")
+    weatherElWind.textContent = "Wind Speed: " + weatherData.wind_speed
+    wrapper.appendChild(weatherElWind);
+
+    const weatherElUvi = document.createElement("div")
+    weatherElUvi.textContent = "UVI Index: " + weatherData.uvi
+    wrapper.appendChild(weatherElUvi);
+
+    return wrapper
+}
+
+var displayHistory = function (lookupHistory) {
+    const lookupHistoryEls = lookupHistory.map(function (lookup) {
+        const wrapper = document.createElement("div");
+        wrapper.textContent = lookup;
+        wrapper.addEventListener("click", function () {
+            updateWeather(lookup)
+        })
+        return wrapper
+    })
+
+    savedCityEl.innerHTML = ""
+
+    lookupHistoryEls.forEach(function (lookupHistoryEl) {
+        savedCityEl.appendChild(lookupHistoryEl)
+    })
+}
+
+var updateWeather = function (cityName) {
+    updateHistory(cityName);
+    getCoords(cityName)
+        .then(function (coords) {
+            return getWeather(coords.lat, coords.lon)
+        })
+        .then(function (weatherData) {
+            displayWeather(weatherData)
+        })
+}
+
+var updateHistory = function (cityName) {
+    let lookupHistory = localStorage.getItem("lookup-history") || "[]"
+    lookupHistory = JSON.parse(lookupHistory);
+    if (cityName) lookupHistory.unshift(cityName);
+    lookupHistory = lookupHistory.filter((e, i) => lookupHistory.indexOf(e) === i);
+    localStorage.setItem("lookup-history", JSON.stringify(lookupHistory))
+    displayHistory(lookupHistory);
 }
 
 userFormEl.addEventListener('submit', formSearchHandler);
-savedCityEl.addEventListener('click', buttonClickHandler);
+updateHistory();
+
