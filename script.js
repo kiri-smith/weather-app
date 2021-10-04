@@ -19,6 +19,7 @@ var cityInputEl = document.querySelector('.input-city');
 var resultsContainerEl = document.querySelector('.results-container');
 var searchBtn = document.querySelector('.search-btn');
 var savedCityEl = document.querySelector('saved-results');
+var iconEl = document.querySelector('.icon');
 
 
 
@@ -78,33 +79,35 @@ function getCity() {
 var currentWeather = //can i put in the attributes required?
 var futureWeather = 
 
-var getWeather = function (weather) {
+var getCurrentWeather = function (latitude, longitude) {
     var apiUrl = ''
 
     fetch(apiUrl)
         .then(function (response) {
-            if (response.ok) {
-                response.json().then(function (data) {
-                    displayWeather(data, weather);
-                });
-            } else {
-                alert('Error: ' + response.statusText)
-            }
+            var data = response.json();
+            return data;
         })
-        .catch(function (error) {
-            alert('Unable to connect to weather data')
-        });
 
-    fetch('https://ubahthebuilder.tech/posts/1')
-        .then(data function () {
-            return data.json();
+        .then(function (data) {
+            weather.temp = data.temp;
+            weather.humidity = data.humidity;
+            //IS THIS EVEN CLOSE?
+
         })
-        .then(post function () {
-            console.log(post."temp");
+
+        .then(function () {
+            displayWeather();
         });
 }
 
-var displayWeather = function ()
+var getFutureWeather = function (latitude, longitude) {
+    //do the same thing as above but with future weather api?
+}
+
+var displayWeather = function () {
+    //display current and future weather
+    //with icons and all components needed
+}
 
 userFormEl.addEventListener('submit', formSearchHandler);
 savedCityEl.addEventListener('click', buttonClickHandler);
