@@ -14,6 +14,9 @@
 
 //store that city in local storage
 
+
+//establish variables that point to different elements on the page
+
 var userFormEl = document.querySelector('.form-container');
 var cityInputEl = document.querySelector('.input-city');
 var resultsContainerEl = document.querySelector('.results-container');
@@ -22,7 +25,7 @@ var savedCityEl = document.querySelector('.saved-searches');
 var iconEl = document.querySelector('.icon');
 
 
-
+//create function that searches for a city when inputted by user
 var formSearchHandler = function (event) {
     event.preventDefault();
 
@@ -38,11 +41,10 @@ var formSearchHandler = function (event) {
     }
 };
 
+//function that calls on open weather map to get lat and lon for whatever city is entered
 function getCoords(cityName) {
 
     var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + cityName + '&limit=1&appid=53dde6618c2178392a38a7bdd50d3890';
-
-
 
     return fetch(requestUrl)
         .then(function (response) {
@@ -55,12 +57,10 @@ function getCoords(cityName) {
                 lat: dataObject.lat,
                 lon: dataObject.lon
             }
-            console.log("lat", "long");
-
         })
 }
 
-//need to display weather info
+//need to fetch weather info by using coords and specific parameters
 
 var getWeather = function (latitude, longitude) {
 
@@ -74,7 +74,7 @@ var getWeather = function (latitude, longitude) {
 
         .then(function (data) {
             const daily = data.daily
-            return daily.slice(0, 5).map(dayData => ({
+            return daily.slice(0, 6).map(dayData => ({
                 dt: new Date(dayData.dt * 1000).toString().split(" ").slice(1, 4).join(" "),
                 temp: dayData.temp.day,
                 humidity: dayData.humidity,
@@ -87,7 +87,10 @@ var getWeather = function (latitude, longitude) {
 
 }
 
+//FIX ME!!!!!!!!!!!!!!!!!!!!!!!!!!!! change celsius to F above new Temp(dayData.temp.day * 9 / 5 + 32), -- did not work, broke code
 
+
+//function to display the weather data that was pulled from open weather map
 var displayWeather = function (weatherDatas) {
     const weatherEls = weatherDatas.map(createWeatherEl)
     resultsContainerEl.innerHTML = "";
@@ -96,6 +99,7 @@ var displayWeather = function (weatherDatas) {
     })
 }
 
+//create elements for where to display each piece of data
 var createWeatherEl = function (weatherData) {
     const wrapper = document.createElement("div")
     const weatherElDate = document.createElement("h2")
@@ -107,7 +111,7 @@ var createWeatherEl = function (weatherData) {
     wrapper.appendChild(weatherElIcon);
 
     const weatherElTemp = document.createElement("div")
-    weatherElTemp.textContent = "Temperature (in celsius): " + weatherData.temp
+    weatherElTemp.textContent = "Temperature: " + weatherData.temp
     wrapper.appendChild(weatherElTemp);
 
     const weatherElHumidity = document.createElement("div")
@@ -125,6 +129,22 @@ var createWeatherEl = function (weatherData) {
     return wrapper
 }
 
+/*FIX ME!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+change colors based on uvi
+     if (weatherData.uvi <= 2) {
+        weatherElUvi.css({ backgroundColor: "green" });
+    } else if (weatherData.uvi >= 3 && weatherData.uvi <= 5) {
+        weatherElUvi.css({ backgroundColor: "yellow" });
+    } else if (weatherData.uvi >= 6 && weatherData.uvi <= 7) {
+        weatherElUvi.css({ backgroundColor: "orange" });
+    } else if (weatherData.uvi >= 8 && weatherData.uvi <= 10) {
+        weatherElUvi.css({ backgroundColor: "red" });
+    } else {
+        weatherElUvi.css({ backgroundColor: "purple" });
+    }
+*/
+
+//store searches and allow them to be clicked on
 var displayHistory = function (lookupHistory) {
     const lookupHistoryEls = lookupHistory.map(function (lookup) {
         const wrapper = document.createElement("div");
