@@ -76,13 +76,16 @@ function getCity() {
 }
 
 //need to display weather info
-var currentWeather = //can i put in the attributes required?
-var futureWeather = 
+
+var latitude = //somehow use getCity(lat)
+var longitude = 
 
 var getCurrentWeather = function (latitude, longitude) {
-    var apiUrl = ''
 
-    fetch(apiUrl)
+    var currentApiUrl = 'api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude + '&appid=53dde6618c2178392a38a7bdd50d3890'
+
+
+    fetch(currentApiUrl)
         .then(function (response) {
             var data = response.json();
             return data;
@@ -102,6 +105,10 @@ var getCurrentWeather = function (latitude, longitude) {
 
 var getFutureWeather = function (latitude, longitude) {
     //do the same thing as above but with future weather api?
+
+    var futureApiUrl = 'api.openweathermap.org/data/2.5/forecast?lat=' + latitude + '&lon=' + longitude + '&appid=53dde6618c2178392a38a7bdd50d3890'
+
+    fetch(futureApiUrl)
 }
 
 var displayWeather = function () {
