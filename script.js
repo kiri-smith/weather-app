@@ -122,27 +122,24 @@ var createWeatherEl = function (weatherData) {
     weatherElWind.textContent = "Wind Speed: " + weatherData.wind_speed
     wrapper.appendChild(weatherElWind);
 
-    const weatherElUvi = document.createElement("div")
+    const weatherElUvi = document.createElement("btn")
     weatherElUvi.textContent = "UVI Index: " + weatherData.uvi
 
-    /*FIX ME!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-    change colors based on uvi
-    
-    weatherElUvi.setAttribute("css", function () {
-        if (weatherData.uvi <= 2) {
-            weatherElUvi.css({ backgroundColor: "green" });
-        } else if (weatherData.uvi >= 3 && weatherData.uvi <= 5) {
-            weatherElUvi.css({ backgroundColor: "yellow" });
-        } else if (weatherData.uvi >= 6 && weatherData.uvi <= 7) {
-            weatherElUvi.css({ backgroundColor: "orange" });
-        } else if (weatherData.uvi >= 8 && weatherData.uvi <= 10) {
-            weatherElUvi.css({ backgroundColor: "red" });
+    weatherElUvi.style = function () {
+        if (weatherData.uvi.value <= 2) {
+            weatherData.uvi.style.backgroundColor = "green";
+        } else if (weatherData.uvi.value >= 3 && weatherData.uvi.value <= 5) {
+            weatherData.uvi.style.backgroundColor = "yellow";
+        } else if (weatherData.uvi.value >= 6 && weatherData.uvi.value <= 7) {
+            weatherData.uvi.style.backgroundColor = "orange";
+        } else if (weatherData.uvi.value >= 8 && weatherData.uvi.value <= 10) {
+            weatherData.uvi.style.backgroundColor = "red";
         } else {
-            weatherElUvi.class({ "style" "purple" });
+            weatherData.uvi.style.backgroundColor = "purple";
         }
-    }
-    
-    */
+    };
+
+
     wrapper.appendChild(weatherElUvi);
 
     return wrapper
