@@ -124,30 +124,32 @@ var createWeatherEl = function (weatherData) {
 
     const weatherElUvi = document.createElement("div")
     weatherElUvi.textContent = "UVI Index: " + weatherData.uvi
+
+    /*FIX ME!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+    change colors based on uvi
+    
+    weatherElUvi.setAttribute("css", function () {
+        if (weatherData.uvi <= 2) {
+            weatherElUvi.css({ backgroundColor: "green" });
+        } else if (weatherData.uvi >= 3 && weatherData.uvi <= 5) {
+            weatherElUvi.css({ backgroundColor: "yellow" });
+        } else if (weatherData.uvi >= 6 && weatherData.uvi <= 7) {
+            weatherElUvi.css({ backgroundColor: "orange" });
+        } else if (weatherData.uvi >= 8 && weatherData.uvi <= 10) {
+            weatherElUvi.css({ backgroundColor: "red" });
+        } else {
+            weatherElUvi.class({ "style" "purple" });
+        }
+    }
+    
+    */
     wrapper.appendChild(weatherElUvi);
 
     return wrapper
 }
 
 
-/*FIX ME!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-change colors based on uvi
 
-weatherElUvi.setAttribute("css", function () {
-    if (weatherData.uvi <= 2) {
-        weatherElUvi.css({ backgroundColor: "green" });
-    } else if (weatherData.uvi >= 3 && weatherData.uvi <= 5) {
-        weatherElUvi.css({ backgroundColor: "yellow" });
-    } else if (weatherData.uvi >= 6 && weatherData.uvi <= 7) {
-        weatherElUvi.css({ backgroundColor: "orange" });
-    } else if (weatherData.uvi >= 8 && weatherData.uvi <= 10) {
-        weatherElUvi.css({ backgroundColor: "red" });
-    } else {
-        weatherElUvi.class({ "style" "purple" });
-    }
-}
-
-*/
 
 //store searches and allow them to be clicked on
 var displayHistory = function (lookupHistory) {
