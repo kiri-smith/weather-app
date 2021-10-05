@@ -126,17 +126,17 @@ var createWeatherEl = function (weatherData) {
     weatherElUvi.textContent = "UVI Index: " + weatherData.uvi
 
     //color changes on uvi button based on index value
-    weatherElUvi.style = function () {
+    weatherElUvi.style.backgroundColor = function () {
         if (weatherData.uvi.value <= 2) {
-            weatherData.uvi.style.backgroundColor = "green";
+            "green";
         } else if (weatherData.uvi.value >= 3 && weatherData.uvi.value <= 5) {
-            weatherData.uvi.style.backgroundColor = "yellow";
+            "yellow";
         } else if (weatherData.uvi.value >= 6 && weatherData.uvi.value <= 7) {
-            weatherData.uvi.style.backgroundColor = "orange";
+            "orange";
         } else if (weatherData.uvi.value >= 8 && weatherData.uvi.value <= 10) {
-            weatherData.uvi.style.backgroundColor = "red";
+            "red";
         } else {
-            weatherData.uvi.style.backgroundColor = "purple";
+            "purple";
         }
     };
 
