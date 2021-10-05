@@ -125,6 +125,7 @@ var createWeatherEl = function (weatherData) {
     const weatherElUvi = document.createElement("btn")
     weatherElUvi.textContent = "UVI Index: " + weatherData.uvi
 
+    //color changes on uvi button based on index value
     weatherElUvi.style = function () {
         if (weatherData.uvi.value <= 2) {
             weatherData.uvi.style.backgroundColor = "green";
@@ -138,7 +139,6 @@ var createWeatherEl = function (weatherData) {
             weatherData.uvi.style.backgroundColor = "purple";
         }
     };
-
 
     wrapper.appendChild(weatherElUvi);
 
