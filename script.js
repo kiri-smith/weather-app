@@ -66,7 +66,6 @@ var getWeather = function (latitude, longitude) {
 
     var currentApiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=current,minutely,hourly,alerts&appid=53dde6618c2178392a38a7bdd50d3890'
 
-
     return fetch(currentApiUrl)
         .then(function (response) {
             return response.json();
@@ -76,18 +75,17 @@ var getWeather = function (latitude, longitude) {
             const daily = data.daily
             return daily.slice(0, 6).map(dayData => ({
                 dt: new Date(dayData.dt * 1000).toString().split(" ").slice(1, 4).join(" "),
-                temp: dayData.temp.day,
+                temp: (dayData.temp.day - 273.15) * 1.8 + 32,
                 humidity: dayData.humidity,
                 wind_speed: dayData.wind_speed,
                 uvi: dayData.uvi,
                 icon: dayData.weather[0].icon
             }))
 
+
         })
 
 }
-
-//FIX ME!!!!!!!!!!!!!!!!!!!!!!!!!!!! change celsius to F above new Temp(dayData.temp.day * 9 / 5 + 32), -- did not work, broke code
 
 
 //function to display the weather data that was pulled from open weather map
@@ -99,8 +97,10 @@ var displayWeather = function (weatherDatas) {
     })
 }
 
+
 //create elements for where to display each piece of data
 var createWeatherEl = function (weatherData) {
+
     const wrapper = document.createElement("div")
     const weatherElDate = document.createElement("h2")
     weatherElDate.textContent = weatherData.dt
@@ -111,7 +111,7 @@ var createWeatherEl = function (weatherData) {
     wrapper.appendChild(weatherElIcon);
 
     const weatherElTemp = document.createElement("div")
-    weatherElTemp.textContent = "Temperature: " + weatherData.temp
+    weatherElTemp.textContent = "Temperature: " + weatherData.temp.toFixed(0) + " degrees fahrenheit"
     wrapper.appendChild(weatherElTemp);
 
     const weatherElHumidity = document.createElement("div")
@@ -129,9 +129,12 @@ var createWeatherEl = function (weatherData) {
     return wrapper
 }
 
+
 /*FIX ME!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 change colors based on uvi
-     if (weatherData.uvi <= 2) {
+
+weatherElUvi.setAttribute("css", function () {
+    if (weatherData.uvi <= 2) {
         weatherElUvi.css({ backgroundColor: "green" });
     } else if (weatherData.uvi >= 3 && weatherData.uvi <= 5) {
         weatherElUvi.css({ backgroundColor: "yellow" });
@@ -140,8 +143,10 @@ change colors based on uvi
     } else if (weatherData.uvi >= 8 && weatherData.uvi <= 10) {
         weatherElUvi.css({ backgroundColor: "red" });
     } else {
-        weatherElUvi.css({ backgroundColor: "purple" });
+        weatherElUvi.class({ "style" "purple" });
     }
+}
+
 */
 
 //store searches and allow them to be clicked on
