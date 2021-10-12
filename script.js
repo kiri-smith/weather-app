@@ -44,7 +44,7 @@ var formSearchHandler = function (event) {
 //function that calls on open weather map to get lat and lon for whatever city is entered
 function getCoords(cityName) {
 
-    var requestUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + cityName + '&limit=1&appid=53dde6618c2178392a38a7bdd50d3890';
+    var requestUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + cityName + '&limit=1&appid=53dde6618c2178392a38a7bdd50d3890';
 
     return fetch(requestUrl)
         .then(function (response) {
@@ -107,7 +107,7 @@ var createWeatherEl = function (weatherData) {
     wrapper.appendChild(weatherElDate);
 
     const weatherElIcon = document.createElement("img")
-    weatherElIcon.src = "http://openweathermap.org/img/wn/" + weatherData.icon + "@2x.png";
+    weatherElIcon.src = "https://openweathermap.org/img/wn/" + weatherData.icon + "@2x.png";
     wrapper.appendChild(weatherElIcon);
 
     const weatherElTemp = document.createElement("div")
