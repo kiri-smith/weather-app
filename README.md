@@ -5,6 +5,7 @@ For this project, I created a weather app where a user can input the name of a c
 ## Snapshot
 
 <img src="snip.JPG" alt="Screenshot of Weather App">
+<img src="snip2.JPG" alt="Screenshot of Weather App">
 
 ## Built With
 
